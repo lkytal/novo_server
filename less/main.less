@@ -1,0 +1,356 @@
+// Color variables (appears count calculates by raw css)
+@color0: #3498db; // Appears 6 times
+@color1: #c8c8c8; // Appears 3 times
+@color2: #ff7878; // Appears 3 times
+@color3: #f85c37; // Appears 3 times
+@color4: rgb(25, 25, 25); // Appears 2 times
+@color5: #cccccc; // Appears 2 times
+@color6: #7b7b7b; // Appears 2 times
+@color7: #ce4844; // Appears 2 times
+@color8: #333333; // Appears 2 times
+// Height variables (appears count calculates by raw css)
+@height2: 10em; // Appears 2 times
+
+@media (min-width: 768px) {
+    .container {
+        width: 90%;
+    }
+}
+@media (min-width: 992px) {
+    .container {
+        width: 90%;
+    }
+}
+@media (min-width: 1200px) {
+    .container {
+        width: 80%;
+    }
+}
+@media (min-width: 1600px) {
+    .container {
+        width: 80%;
+    }
+}
+body {
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+    background-color: #f2f2f2;
+    color: #555555;
+    font-family: Microsoft YaHei UI, Helvetica, Microsoft YaHei, Consolas, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+}
+.indeximg {
+    padding: 10px;
+    text-align: center;
+    width: 70%;
+}
+.white {
+    color: white;
+}
+.colorful {
+    color: @color0;
+}
+.colorful2 {
+    color: @color3;
+}
+#linkdiv {
+    a {
+        display: block !important;
+        padding: 5px;
+    }
+}
+.releft {
+    text-align: left !important;
+    * {
+        text-align: left !important;
+    }
+}
+.tabsp {
+    left: 33%;
+    position: absolute;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: @color8;
+}
+p {
+    line-height: 28px;
+    margin-bottom: 25px;
+}
+.centered {
+    text-align: center;
+}
+.center {
+    padding: 50px;
+    text-align: center;
+}
+#members {
+    .img-circle {
+        height: 200px;
+        width: 200px;
+    }
+}
+a {
+    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -ms-word-wrap: break-word;
+    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+    color: @color3;
+    transition: color 0.1s ease-in, background 0.1s ease-in;
+    word-wrap: break-word;
+    &:hover {
+        color: @color6;
+        outline: 0;
+        text-decoration: none;
+    }
+    &:focus {
+        color: @color6;
+        outline: 0;
+        text-decoration: none;
+    }
+    &:before {
+        -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+        -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+        -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+        transition: color 0.1s ease-in, background 0.1s ease-in;
+    }
+    &:after {
+        -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
+        -o-transition: color 0.1s ease-in, background 0.1s ease-in;
+        -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
+        transition: color 0.1s ease-in, background 0.1s ease-in;
+    }
+}
+hr {
+    border-top: 1px solid @color5;
+    border: 0;
+    display: block;
+    height: 1px;
+    margin: 1em 0;
+    padding: 0;
+}
+.navbar-fixed-top {
+    border-width: 0 0 0 !important;
+}
+.navbar-inverse {
+    background: @color4 !important;
+    background: rgba(25, 25, 25, 0.5) !important;
+    border-color: @color4 !important;
+    border-color: rgba(25, 25, 25, 0.5) !important;
+    color: white;
+    .navbar-nav>.active>a {
+        background: @color0;
+        &:hover {
+            background: @color0;
+            color: white !important;
+        }
+    }
+    .navbar-brand {
+        color: #999999;
+        font-size: 20px;
+        font-weight: bolder;
+        letter-spacing: 1px;
+        i {
+            color: @color0;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+    }
+}
+.tilt {
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    &:hover {
+        -moz-transform: scale(1.1, 1.1);
+        -ms-transform: scale(1.1, 1.1);
+        -o-transform: scale(1.1, 1.1);
+        -webkit-transform: scale(1.1, 1.1);
+        transform: scale(1.1, 1.1);
+    }
+}
+.headerSpace {
+    padding-top: 70px;
+}
+#headerwrap {
+    -moz-background-size: cover;
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/c2.jpg', sizingMethod='scale')";
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-position: center center;
+    background-size: cover;
+    background: url("../img/city-restaurant-table-pavement-1600.jpg") no-repeat center top;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/c2.jpg', sizingMethod='scale');
+    margin-top: -10px;
+    min-height: 360px;
+    padding-top: 20px;
+    text-align: center;
+    width: 100%;
+    h1 {
+        color: white;
+        font-size: 70px;
+        font-weight: 300;
+        letter-spacing: 3px;
+        margin-top: 40px;
+    }
+    h2 {
+        color: white;
+        font-size: 40px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+}
+.shadow {
+    text-shadow: 8px 8px 8px #222222;
+}
+.dg {
+    background: #e0e0e0;
+    padding-bottom: 70px;
+    text-align: center;
+    h4 {
+        font-weight: 700;
+    }
+}
+.lg {
+    background: #ebebeb;
+    padding-bottom: 70px;
+    padding-top: 70px;
+    text-align: center;
+    h4 {
+        font-weight: 700;
+    }
+}
+#r {
+    background: @color0;
+    padding-bottom: 35px;
+    padding-top: 35px;
+    h4 {
+        color: white;
+        font-weight: 700;
+    }
+    p {
+        color: white;
+    }
+}
+#blue {
+    background: @color0;
+    padding-bottom: 35px;
+    padding-top: 35px;
+    h4 {
+        color: white;
+        font-weight: 700;
+    }
+    p {
+        color: white;
+    }
+}
+.headul {
+    a {
+        color: white !important;
+        opacity: 1;
+    }
+}
+#footer {
+    background-color: #2d2d2d;
+    padding-bottom: 40px;
+    padding-top: 40px;
+    .row {
+        padding-left: 8%;
+        padding-right: 8%;
+    }
+    p {
+        color: white;
+    }
+    h4 {
+        color: white;
+        padding-bottom: 20px;
+        text-transform: uppercase;
+    }
+    i {
+        color: #bdbdbd;
+        font-size: 30px;
+        padding: 20px;
+        &:hover {
+            color: @color2;
+        }
+    }
+}
+.w {
+    padding-top: 35px;
+    h4 {
+        font-weight: 700;
+    }
+    i {
+        color: @color2;
+        font-size: 30px;
+    }
+}
+.wb {
+    margin-bottom: 0;
+    padding-top: 35px;
+    h4 {
+        font-weight: 700;
+    }
+}
+.desc {
+    padding-top: 35px;
+    h4 {
+        font-weight: 700;
+    }
+    i {
+        color: @color2;
+        font-size: 12px;
+        padding: 5px;
+    }
+}
+.bs-callout {
+    margin: 20px 0;
+    padding: 20px;
+    h4 {
+        margin-bottom: 30px;
+        margin-top: 5px;
+    }
+    p {
+        color: @color8;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    code {
+        border-radius: 3px;
+    }
+}
+.bs-callout+.bs-callout {
+    margin-top: -5px;
+}
+.bs-callout-info {
+    h4 {
+        color: @color3;
+    }
+}
+.bs-callout-danger {
+    border-left-color: @color7;
+    h4 {
+        color: @color7;
+    }
+}
+.demo-logo {
+    font: 900 90px/100px Arial, sans-serif;
+    letter-spacing: -2px;
+    margin: 10px 0;
+    small {
+        color: rgba(52, 73, 94, 0.3);
+        display: block;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0;
+        padding-top: 5px;
+    }
+}
