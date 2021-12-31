@@ -417,7 +417,7 @@ payload = {
 }
 
 # sending post request to TensorFlow Serving server
-r = requests.post("http://localhost:8501/v1/models/pred_model:predict",
+r = requests.post("http://localhost:6501/v1/models/pred_model:predict",
                   headers = {"content-type": "application/json"},
                   json=payload)
 
