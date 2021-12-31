@@ -1,4 +1,4 @@
-# PredFull
+# PepNet
 
 __Visit [http://pepnet.com/](http://pepnet.com/) to try online prediction__
 

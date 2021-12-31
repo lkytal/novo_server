@@ -363,12 +363,12 @@ def fix1(rst, mass, c, ppm=50):
         return topep(seq), -1, pscore
 
     for i in range(len(seq) - 1):  # no last pos
-        mi = mlist[seq[i]]
+        mi = mass_list[seq[i]]
         for j in range(1, 21):
             if j == 8:
                 continue  # ignore "I"
 
-            d = msp - mass + (mlist[j] - mi) / c
+            d = msp - mass + (mass_list[j] - mi) / c
 
             if abs(d) < abs(delta):
                 delta = d
