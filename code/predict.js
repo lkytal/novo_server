@@ -19,6 +19,9 @@ function doSearch() {
 	
 	$('#info, #loadErr, #complete, #rst').slideUp(100);
 	$('#loading').slideDown(300);
+	$('body, html').animate({
+		scrollTop: $('#loading')[0].offsetTop - 200
+	}, 1000);
 
 	jQuery.post("/api/denovo", {'mgf': mgf})
 	.done(function(data) {
@@ -42,7 +45,7 @@ function doSearch() {
 			$('#rst, #complete').slideDown(400);
 			
 			$('body, html').animate({
-				scrollTop: $('#complete')[0].offsetTop - 150
+				scrollTop: $('#complete')[0].offsetTop - 200
 			}, 1000);
 		}
 		catch (err) {
@@ -53,7 +56,7 @@ function doSearch() {
 			$('#loadErr').slideDown(400);
 
 			$('body, html').animate({
-				scrollTop: $('#loadErr')[0].offsetTop - 150
+				scrollTop: $('#loadErr')[0].offsetTop - 200
 			}, 1000);
 		}
 	})
@@ -63,7 +66,7 @@ function doSearch() {
 		$('#loadErr').slideDown(400);
 
 		$('body, html').animate({
-			scrollTop: $('#loadErr')[0].offsetTop - 100
+			scrollTop: $('#loadErr')[0].offsetTop - 200
 		}, 1000);
 	})
 }
