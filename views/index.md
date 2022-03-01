@@ -1,6 +1,6 @@
 # PepNet
 
-__Visit [http://pepnet.com/](http://pepnet.com/) to try online prediction__
+__Also, Visit [https://www.predfull.com/](https://www.predfull.com/) to check our previous project on full spectrum prediction__
 
 The first model for predicting complete tandem mass spectra from peptides sequences, using a deep CNN neural network trained on over 2 million experimental spectra.
 
@@ -38,7 +38,7 @@ Recommend to install dependency via [Anaconda](https://www.anaconda.com/distribu
 Sample output looks like:
 
 TITLE | DENOVO | Score | PPM Difference | Positional Score
-------- | ------ | ---- | ------- | ------ 
+------- | ------ | ---- | ------- | ------
 spectra 1 | LALYCHQLNLCSK | 1.0000 | -3.8919184 | [1.0, 0.9999956, 1.0, 1.0, 1.0, 1.0, 0.99999976, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 spectra 2 | HEELMLGDPCLK | 1.0000 | 4.207922 | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.99999976, 1.0]
 spectra  3 | AGLVGPEFHEK | 1.0000 | 0.54602236 | [1.0, 1.0, 1.0, 1.0, 1.0, 0.99999917, 1.0, 1.0, 1.0, 1.0, 1.0]

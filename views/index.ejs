@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 
 <html lang="zh_cn">
+
 <head>
 	<title>PepNet</title>
 	<%- include('meta') %>
 </head>
+
 <body>
 	<%- include('titlebar') %>
 
-	<div id="headerwrap">
-		<div class="container headerSpace">
-			<div class="row centered">
-				<div class="col-md-12">
-					<h1 class="shadow">PepNet</h1>
-					<h4 class="shadow light">
-						A fully Convolutional Neural Network for De novo Peptide Sequencing
-					</h1>
-				</div>
+		<div id="headerwrap">
+			<div class="container headerSpace">
+				<div class="row centered">
+					<div class="col-md-12">
+						<h1 class="shadow">PepNet</h1>
+						<h4 class="shadow light">
+							A fully Convolutional Neural Network for De novo Peptide Sequencing
+							</h1>
+					</div>
 
-				<div class='col-md-6'>
-					<a href="">
-						<div class='btn btn-block ghost-btn shadow' style='font-size: 20px; margin-top: 20px;'>
-							View Pulication (coming soon)
-						</div>
-					</a>
-				</div>
-				<div class='col-md-6'>
-					<a href="/predict">
-						<div class='btn btn-block ghost-btn shadow' style='font-size: 20px; margin-top: 20px;'>
-							Try Online Prediction
-						</div>
-					</a>
+					<div class='col-md-6'>
+						<a href="">
+							<div class='btn btn-block ghost-btn shadow' style='font-size: 20px; margin-top: 20px;'>
+								View Pulication (coming soon)
+							</div>
+						</a>
+					</div>
+					<div class='col-md-6'>
+						<a href="/predict">
+							<div class='btn btn-block ghost-btn shadow' style='font-size: 20px; margin-top: 20px;'>
+								Try Online Prediction
+							</div>
+						</a>
+					</div>
 				</div>
 			</div>
+			<!-- container -->
 		</div>
-		<!-- container -->
-	</div>
 
-	<div class="dg">
 		<div class="container-fluid wb">
 			<div class="row centered">
 				<div class="col-md-4">
@@ -49,10 +50,10 @@
 								The SOTA de novo sequencing model.
 							</p>
 							<p class="releft">
-								<ul>
-									<li>High accuracy sequencing.</li>
-									<li>Support multiple charges.</li>
-								</ul>
+							<ul>
+								<li>High accuracy sequencing.</li>
+								<li>Support multiple charges.</li>
+							</ul>
 							</p>
 						</div>
 					</div>
@@ -92,19 +93,31 @@
 			</div>
 			<!-- row -->
 		</div>
-		<!-- container -->
-	</div>
 
-	<div class="container w">
-		<div class="row">
-			<h4>More Information</h4>
-		</div>
-		<div class="row">
-			<%# <iframe id="frame" src="/index.md"> </iframe> %>
-			<%- body %>
-		</div>
-	</div>
 
-	<%- include('foot') %>
+		<!-- <div class="dg">
+		<div class="container-fluid wb">
+			<div class="row centered">
+				<div class="col-md-12">
+					<p>Also, check our work about full spectrum prediction</p>
+				</div>
+			</div>
+			<!-- row -->
+		</div>
+		</div> -->
+
+
+		<div class="container w">
+			<div class="row">
+				<h4>More Information</h4>
+			</div>
+			<div class="row">
+				<%# <iframe id="frame" src="/index.md"> </iframe> %>
+					<%- body %>
+			</div>
+		</div>
+
+		<%- include('foot') %>
 </body>
+
 </html>
