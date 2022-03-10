@@ -22,7 +22,6 @@ app.set("views", path.join(__dirname, "views"));
 app.set('view engine', 'ejs');
 app.engine('ejs', ejs);
 app.engine('.html', ejs);
-app.engine('coffee', require('coffeecup').__express);
 
 app.engine('md', function (path, options, callback) {
 	return fs.readFile(path, 'utf8', function (err, str) {

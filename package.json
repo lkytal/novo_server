@@ -14,17 +14,15 @@
 	"dependencies": {
 		"babel": "^6.23.0",
 		"babel-core": "^6.26.3",
-		"body-parser": "1.19.1",
-		"coffee-script": "1.12.7",
-		"coffeecup": "0.3.21",
+		"body-parser": "1.19.2",
 		"compression": "^1.7.4",
 		"cookie-parser": "^1.4.6",
 		"debug": "4.3.3",
 		"ejs": "3.1.6",
-		"express": "4.17.2",
+		"express": "4.17.3",
 		"express-session": "1.17.2",
-		"helmet": "^4.6.0",
-		"markdown-it": "12.3.0",
+		"helmet": "^5.0.2",
+		"markdown-it": "12.3.2",
 		"morgan": "1.10.0",
 		"natives": "^1.1.6",
 		"request": "^2.88.2",
@@ -37,13 +35,13 @@
 	},
 	"license": "GPLv3",
 	"devDependencies": {
-		"@babel/core": "^7.16.5",
-		"@babel/preset-env": "^7.16.5",
+		"@babel/core": "^7.17.5",
+		"@babel/preset-env": "^7.16.11",
 		"@babel/preset-es2015": "^7.0.0-beta.53",
 		"babel-preset-es2015": "^6.24.1",
 		"browser-sync": "2.27.7",
-		"chalk": "^5.0.0",
-		"eslint": "^8.5.0",
+		"chalk": "^5.0.1",
+		"eslint": "^8.10.0",
 		"gulp": "^4.0.2",
 		"gulp-autoprefixer": "^8.0.0",
 		"gulp-babel": "^8.0.0",
@@ -62,6 +60,6 @@
 		"postcss-vmin": "^3.0.0",
 		"postcss-will-change": "^4.0.1",
 		"tslint": "^6.1.3",
-		"typescript": "^4.5.4"
+		"typescript": "^4.6.2"
 	}
 }
