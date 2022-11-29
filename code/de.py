@@ -252,7 +252,7 @@ class hyper_para():
         pdim: int = 512
         dim: int = vdim + 0
         mod: int = 0
-        maxc: int = 6
+        maxc: int = 8
 
         nnum: int = 4
         pnum: int = 4
@@ -270,7 +270,7 @@ class hyper_para():
             "y": ([sp_dim, dim], "float32"),
 #             "sp_masks": ([hyper.dim], "int32"),
             "info": ([2], "float32"),
-            "charge": ([4], "float32"),
+            "charge": ([8], "float32"),
             # "pks": ([2, pdim], "float32")
         })
 
@@ -415,8 +415,6 @@ r = requests.post("http://localhost:6501/v1/models/novo_model:predict",
                   json=payload)
 
 pred = json.loads(r.content.decode("utf-8"))
-
-print(pred)
 
 pep, _, matrix = fix1(pred["predictions"][0], sp["mass"], sp["charge"])
 pscore = matrix[:len(pep)]
