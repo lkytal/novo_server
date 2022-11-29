@@ -330,18 +330,20 @@ processor = data_processor(hyper)
 # In[6]:
 
 
-def fix1(rst, mass, c, ppm=50):
+def fix1(rst, mass, c, ppm=10):
     pscore = np.max(rst, axis=-1)
     seq = decode(rst)
     pep = topep(seq)
     seq = seq[:len(pep)]
     tol = mass * ppm / 1000000
+    
+    for i, char in enumerate(pep):
+        if char in '*[]':
+            pep = pep[:i]
+            pscore[i:] = 1
+            seq = seq[:i]
+            break
 
-    for char in "*[]":
-        if char in pep:
-            pep = clean(pep)
-            pscore[len(pep):] = 1
-            return pep, -1, pscore
     if len(pep) < 1:
         return "AAAAAK", -1, pscore
 
@@ -413,6 +415,8 @@ r = requests.post("http://localhost:6501/v1/models/novo_model:predict",
                   json=payload)
 
 pred = json.loads(r.content.decode("utf-8"))
+
+print(pred)
 
 pep, _, matrix = fix1(pred["predictions"][0], sp["mass"], sp["charge"])
 pscore = matrix[:len(pep)]
