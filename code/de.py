@@ -29,7 +29,7 @@ types = {"un": 0, "cid": 1, "etd": 2, "hcd": 3, "ethcd": 4, "etcid": 5}
 
 cr = {1: 1, 2: 0.9, 3: 0.85, 4: 0.8, 5: 0.75, 6: 0.75, 7: 0.75, 8: 0.75}
 
-def tojson(sps, charge=0, maxc=4, ignore=0):
+def tojson(sps, charge=0, maxc=8, ignore=0):
     db = []
 
     for sp in sps:
@@ -41,8 +41,12 @@ def tojson(sps, charge=0, maxc=4, ignore=0):
         if charge > 0 and c != charge: continue
         if c < 1 or c > maxc: continue
 
-        pep = title = param["title"]
-        if "seq" in param: pep = param["seq"]
+        pep = title = ""
+        
+        if "title" in param:
+            pep = title = param["title"]
+        elif "seq" in param:
+            pep = param["seq"]
 
         if "pepmass" in param: mass = param["pepmass"][0]
         else: mass = float(param["parent"])
@@ -242,7 +246,7 @@ class hyper_para():
         outlen: int = lmax + 2
         m1max: int = 2048
         mz_max: int = 2048
-        pre: float = 0.25
+        pre: float = 0.1
         low: float = 0 #pre_denova / 2
         vdim: int = int(mz_max / pre)
         pdim: int = 512
@@ -267,7 +271,7 @@ class hyper_para():
 #             "sp_masks": ([hyper.dim], "int32"),
             "info": ([2], "float32"),
             "charge": ([4], "float32"),
-            "pks": ([2, pdim], "float32")
+            # "pks": ([2, pdim], "float32")
         })
 
         mtl = config({"peps": 1, "reg": 1, "pm": 0, "mass": 1, "peaks": 1, "charge": 1,
@@ -316,19 +320,6 @@ class data_processor():
             vectorlize(mzs, its, mass, c, hyper.pre, hyper.dim, hyper.low, 0, out=inputs.y[i][2], use_max=0)
     #         y[i][2] -= np.mean(y[i][2])
             inputs.y[i][3][:mdim] = inputs.y[i][2][:mdim][::-1] # reverse mz
-
-            if len(mzs) > hyper.pdim:
-                if hyper.cut_peaks:
-                    pos = len(mzs) - hyper.pdim
-                    thres = np.partition(its, pos)[pos]
-                    mzs = mzs[its >= thres][:hyper.pdim] # mzs first
-                    its = its[its >= thres][:hyper.pdim]
-                else:
-                    raise
-
-            sz = len(mzs)
-            inputs.pks[i][0][:sz] = mzs / hyper.m1max
-            inputs.pks[i][1][:sz] = np.sqrt(its / np.max(its))
 
         return tuple([inputs[key] for key in inputs])
 
@@ -411,7 +402,7 @@ payload = {
             "sp_inp": rst[0][0].tolist(), #np.zeros((4, 8192)).tolist(),
             "mz_inp": rst[1][0].tolist(), #np.zeros((2, )).tolist(),
             "charge_inp": rst[2][0].tolist(), #np.zeros((4, )).tolist(),
-            "pks_inp": rst[3][0].tolist(), #np.zeros((2, 512)).tolist(),
+            # "pks_inp": rst[3][0].tolist(), #np.zeros((2, 512)).tolist(),
         }
     ]
 }

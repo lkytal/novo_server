@@ -1,19 +1,17 @@
-let fs = require('fs');
-let markdown = require('markdown-it')();
-let express = require("express");
-let path = require("path");
-let favicon = require('serve-favicon');
-let logger = require("morgan");
-let compress = require('compression');
-let cookieParser = require("cookie-parser");
-let bodyParser = require("body-parser");
-let ejs = require('ejs').__express;
-let helmet = require('helmet');
-let request = require('request');
-const { execFile } = require('child_process');
+const fs = require('fs');
+const markdown = require('markdown-it')();
+const express = require("express");
+const path = require("path");
+const favicon = require('serve-favicon');
+const logger = require("morgan");
+const compress = require('compression');
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const ejs = require('ejs').__express;
+const helmet = require('helmet');
 
+const { execFile } = require('child_process');
 const tmp = require('tmp');
-let utils = require('./routes/utils');
 
 let app = express();
 
