@@ -4,6 +4,8 @@
 # In[1]:
 
 
+from numba import int32, float32, float64, boolean
+import numba as nb
 import requests
 import numpy as np
 import pyteomics
@@ -22,12 +24,15 @@ import sys
 
 def openmgf(fn):
     file = open(fn, "r")
-    data = mgf.read(file, convert_arrays=1, read_charges=False, dtype="float32", use_index=False)
+    data = mgf.read(file, convert_arrays=1, read_charges=False,
+                    dtype="float32", use_index=False)
     return data
+
 
 types = {"un": 0, "cid": 1, "etd": 2, "hcd": 3, "ethcd": 4, "etcid": 5}
 
 cr = {1: 1, 2: 0.9, 3: 0.85, 4: 0.8, 5: 0.75, 6: 0.75, 7: 0.75, 8: 0.75}
+
 
 def tojson(sps, charge=0, maxc=8, ignore=0):
     db = []
@@ -35,47 +40,58 @@ def tojson(sps, charge=0, maxc=8, ignore=0):
     for sp in sps:
         param = sp["params"]
 
-        if not "charge" in param and ignore: continue
+        if not "charge" in param and ignore:
+            continue
         c = int(str(param["charge"][0])[0])
 
-        if charge > 0 and c != charge: continue
-        if c < 1 or c > maxc: continue
+        if charge > 0 and c != charge:
+            continue
+        if c < 1 or c > maxc:
+            continue
 
         pep = title = ""
-        
+
         if "title" in param:
             pep = title = param["title"]
         elif "seq" in param:
             pep = param["seq"]
 
-        if "pepmass" in param: mass = param["pepmass"][0]
-        else: mass = float(param["parent"])
+        if "pepmass" in param:
+            mass = param["pepmass"][0]
+        else:
+            mass = float(param["parent"])
 
-        rtime = 0 if not "RTINSECONDS" in param else float(param["RTINSECONDS"])
+        rtime = 0 if not "RTINSECONDS" in param else float(
+            param["RTINSECONDS"])
 
         if "hcd" in param:
             try:
                 hcd = param["hcd"]
-                if hcd[-1] == "%": hcd = float(hcd)
+                if hcd[-1] == "%":
+                    hcd = float(hcd)
                 elif hcd[-2:] == "eV":
                     hcd = float(hcd[:-2])
                     hcd = hcd * 500 * cr[c] / mass
-                else: raise Exception("Invalid type!")
+                else:
+                    raise Exception("Invalid type!")
             except:
                 hcd = 0
-        else: hcd = 0
+        else:
+            hcd = 0
 
         mz = sp["m/z array"]
         it = sp["intensity array"]
 
-        db.append({"pep": pep, "charge":c, "mass": mass, "mz": mz, "it": it,
-                           "nce": hcd, "title": title })
+        db.append({"pep": pep, "charge": c, "mass": mass, "mz": mz, "it": it,
+                   "nce": hcd, "title": title})
 
     return db
 
+
 def readmgf(fn, idrst=None, c=0, **kws):
     file = open(fn, "r")
-    data = mgf.read(file, convert_arrays=1, read_charges=False, dtype="float32", use_index=False)
+    data = mgf.read(file, convert_arrays=1, read_charges=False,
+                    dtype="float32", use_index=False)
 
     codes = tojson(data, c, **kws)
     return codes
@@ -84,24 +100,24 @@ def readmgf(fn, idrst=None, c=0, **kws):
 # In[4]:
 
 
-import numba as nb
-from numba import int32, float32, float64, boolean
-
-
 class config(dict):
     def __init__(self, *args, **kwargs):
         super(config, self).__init__(*args, **kwargs)
         self.__dict__ = self
 
+
 def f4(x): return "{0:.4f}".format(x)
+
 
 def asnp(x): return np.asarray(x)
 def asnp32(x): return np.asarray(x, dtype="float32")
 def np32(x): return np.array(x, dtype="float32")
+
+
 def clipn(*kw, sigma=4):
     return np.clip(np.random.randn(*kw), -sigma, sigma) / sigma
 
-    
+
 def fastmass(pep, ion_type, charge, mod=None, cam=True):
     base = mass.fast_mass(pep, ion_type=ion_type, charge=charge)
 
@@ -112,14 +128,18 @@ def fastmass(pep, ion_type, charge, mod=None, cam=True):
         base += 15.995 * np.sum(mod == 1) / charge
     return base
 
+
 def m1(pep, c=1, **kws): return fastmass(pep, ion_type="M", charge=c, **kws)
+
 
 def ppmdiff(sp, pep):
     mass = fastmass(pep, "M", sp["charge"])
     return ((sp["mass"] - mass) / mass) * 1000000
 
+
 def ppm(m1, m2):
     return ((m1 - m2) / m1) * 1000000
+
 
 mono = {"G": 57.021464, "A": 71.037114, "S": 87.032029, "P": 97.052764, "V": 99.068414, "T": 101.04768,
         "C": 160.03019, "L": 113.08406, "I": 113.08406, "D": 115.02694, "Q": 128.05858, "K": 128.09496,
@@ -146,16 +166,21 @@ for a in amino_list:
 
 mass_list = asnp32([0] + [mono[a] for a in amino_list] + [0, 0])
 
+
 def normalize(it, mode):
     if mode == 0:
         return it
-    elif mode == 2: return np.sqrt(it)
+    elif mode == 2:
+        return np.sqrt(it)
 
-    elif mode == 3: return np.sqrt(np.sqrt(it))
+    elif mode == 3:
+        return np.sqrt(np.sqrt(it))
 
-    elif mode == 4: return np.sqrt(np.sqrt(np.sqrt(it)))
+    elif mode == 4:
+        return np.sqrt(np.sqrt(np.sqrt(it)))
 
     return it
+
 
 def _remove_precursor(v, pre_mz, c, precision, low, r):
     for delta in (0, 1, 2):
@@ -163,14 +188,18 @@ def _remove_precursor(v, pre_mz, c, precision, low, r):
         if mz > 0 and mz >= low:
             pc = round((mz - low) / precision)
 
-            if pc - r < len(v): v[max(0, pc - r): min(len(v), pc + r)] = 0
-    return None # force inline
+            if pc - r < len(v):
+                v[max(0, pc - r): min(len(v), pc + r)] = 0
+    return None  # force inline
+
 
 def remove_precursor(v, pre_mz, c, precision, low, r=1):
     return _remove_precursor(v, pre_mz, c, precision, low, r)
 
+
 def filterPeaks(v, _max_peaks):
-    if _max_peaks <= 0 or len(v) <= _max_peaks: return v
+    if _max_peaks <= 0 or len(v) <= _max_peaks:
+        return v
 
     kth = len(v) - _max_peaks
     peak_thres = np.partition(v, kth)[kth]
@@ -182,7 +211,8 @@ def flat(v, mz, it, pre, low, use_max):
     for i, x in enumerate(mz):
         pos = int(round((x - low) / pre))
 
-        if pos < 0 or pos >= len(v): continue
+        if pos < 0 or pos >= len(v):
+            continue
 
         if use_max:
             v[pos] = max(v[pos], it[i])
@@ -191,44 +221,55 @@ def flat(v, mz, it, pre, low, use_max):
 
     return v
 
+
 def _vectorlize(mz, it, mass, c, precision, dim, low, mode, v, kth, th, de, dn, use_max):
     it /= np.max(it)
 
-    if dn > 0: it[it < dn] = 0
+    if dn > 0:
+        it[it < dn] = 0
 
-    it = normalize(it, mode) # pre-scale
+    it = normalize(it, mode)  # pre-scale
 
-    if kth > 0: it = filterPeaks(it, _max_peaks=kth)
+    if kth > 0:
+        it = filterPeaks(it, _max_peaks=kth)
 
     flat(v, mz, it, precision, low, use_max)
 
-    if de == 1: _remove_precursor(v, mass, c, precision, low, r=1) #inplace, before scale
+    if de == 1:
+        _remove_precursor(v, mass, c, precision, low,
+                          r=1)  # inplace, before scale
 
-    v /= np.max(v) # final scale, de can change max
+    v /= np.max(v)  # final scale, de can change max
 
     return v
 
+
 def vectorlize(mz, it, mass, c, precision, dim, low, mode, out=None, kth=-1, th=-1, de=1, dn=-1, use_max=0):
-    if out is None: out = np.zeros(dim, dtype="float32")
+    if out is None:
+        out = np.zeros(dim, dtype="float32")
     return _vectorlize(asnp32(mz), np32(it), mass, c, precision, dim, low, mode, out, kth, th, de, dn, use_max)
 
 
 def decode(seq2d):
     return np.int32([np.argmax(seq2d[i]) for i in range(len(seq2d))])
 
+
 def topep(seq):
     return "".join(map(lambda n: id2amino[n], seq)).strip("*[]")
+
 
 def toseq(pep):
     return np.int32([amino2id[c] for c in pep.upper()])
 
+
 def what(seq2d):
     return topep(decode(seq2d))
+
 
 def clean(pep):
     return pep.strip("*[]").replace("I", "L").replace("*", "L").replace("[", "A").replace("]", "R")
 
-    
+
 def iterate(x, bsz):
     while len(x) > bsz:
         yield x[:bsz]
@@ -240,14 +281,14 @@ def iterate(x, bsz):
 
 
 class hyper_para():
-    @dataclass(frozen = True)
+    @dataclass(frozen=True)
     class hyper():
         lmax: int = 30
         outlen: int = lmax + 2
         m1max: int = 2048
         mz_max: int = 2048
         pre: float = 0.1
-        low: float = 0 #pre_denova / 2
+        low: float = 0  # pre_denova / 2
         vdim: int = int(mz_max / pre)
         pdim: int = 512
         dim: int = vdim + 0
@@ -268,7 +309,7 @@ class hyper_para():
 
         inputs = config({
             "y": ([sp_dim, dim], "float32"),
-#             "sp_masks": ([hyper.dim], "int32"),
+            #             "sp_masks": ([hyper.dim], "int32"),
             "info": ([2], "float32"),
             "charge": ([8], "float32"),
             # "pks": ([2, pdim], "float32")
@@ -277,7 +318,7 @@ class hyper_para():
         mtl = config({"peps": 1, "reg": 1, "pm": 0, "mass": 1, "peaks": 1, "charge": 1,
                       "pid": 0, "rk": 1, "exist": 1, "nums": 1, "di": 1, "nce": 0, "length": 1,
                       "ftype": 1, "rdrop": 0, "pep2": 0,
-                     })
+                      })
 
     def __init__(self):
         self.inner = self.__class__.hyper()
@@ -288,17 +329,19 @@ class hyper_para():
     def dict(self):
         return asdict(self.inner)
 
+
 class data_processor():
     def __init__(self, hyper):
         self.hyper = hyper
 
     def get_inputs(self, sps, training=0):
-        hyper = self.hyper ##!
+        hyper = self.hyper  # !
         batch_size = len(sps)
 
         inputs = config({})
         for spec in hyper.inputs:
-            inputs[spec] = np.zeros((batch_size, *hyper.inputs[spec][0]), dtype=hyper.inputs[spec][1])
+            inputs[spec] = np.zeros(
+                (batch_size, *hyper.inputs[spec][0]), dtype=hyper.inputs[spec][1])
 
         for i, sp in enumerate(sps):
             pep, mass, c, mzs, its = sp["pep"], sp["mass"], sp["charge"], sp["mz"], sp["it"]
@@ -313,15 +356,18 @@ class data_processor():
             mdim = min(hyper.dim - 1, round((mass * c - c + 1) / hyper.pre))
 #             sp_masks[i][:mdim] = 1
 
-            vectorlize(mzs, its, mass, c, hyper.pre, hyper.dim, hyper.low, 0, out=inputs.y[i][0], use_max=1)
+            vectorlize(mzs, its, mass, c, hyper.pre, hyper.dim,
+                       hyper.low, 0, out=inputs.y[i][0], use_max=1)
     #         y[i][0] -= np.mean(y[i][0])
-            inputs.y[i][1][:mdim] = inputs.y[i][0][:mdim][::-1] # reverse it
+            inputs.y[i][1][:mdim] = inputs.y[i][0][:mdim][::-1]  # reverse it
 
-            vectorlize(mzs, its, mass, c, hyper.pre, hyper.dim, hyper.low, 0, out=inputs.y[i][2], use_max=0)
+            vectorlize(mzs, its, mass, c, hyper.pre, hyper.dim,
+                       hyper.low, 0, out=inputs.y[i][2], use_max=0)
     #         y[i][2] -= np.mean(y[i][2])
-            inputs.y[i][3][:mdim] = inputs.y[i][2][:mdim][::-1] # reverse mz
+            inputs.y[i][3][:mdim] = inputs.y[i][2][:mdim][::-1]  # reverse mz
 
         return tuple([inputs[key] for key in inputs])
+
 
 hyper = hyper_para()
 processor = data_processor(hyper)
@@ -336,7 +382,7 @@ def fix1(rst, mass, c, ppm=10):
     pep = topep(seq)
     seq = seq[:len(pep)]
     tol = mass * ppm / 1000000
-    
+
     for i, char in enumerate(pep):
         if char in '*[]':
             pep = pep[:i]
@@ -401,9 +447,9 @@ rst = processor.get_inputs([sp])
 payload = {
     "instances": [
         {
-            "sp_inp": rst[0][0].tolist(), #np.zeros((4, 8192)).tolist(),
-            "mz_inp": rst[1][0].tolist(), #np.zeros((2, )).tolist(),
-            "charge_inp": rst[2][0].tolist(), #np.zeros((4, )).tolist(),
+            "sp_inp": rst[0][0].tolist(),  # np.zeros((4, 8192)).tolist(),
+            "mz_inp": rst[1][0].tolist(),  # np.zeros((2, )).tolist(),
+            "charge_inp": rst[2][0].tolist(),  # np.zeros((4, )).tolist(),
             # "pks_inp": rst[3][0].tolist(), #np.zeros((2, 512)).tolist(),
         }
     ]
@@ -411,7 +457,7 @@ payload = {
 
 # sending post request to TensorFlow Serving server
 r = requests.post("http://localhost:6501/v1/models/novo_model:predict",
-                  headers = {"content-type": "application/json"},
+                  headers={"content-type": "application/json"},
                   json=payload)
 
 try:
@@ -432,5 +478,5 @@ except:
         "score": 0,
         "pscore": 0,
         "err": 1,
-        "msg": "r.content.decode('utf-8')"
+        "msg": r.content.decode('utf-8')
     })
