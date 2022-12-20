@@ -96,7 +96,7 @@ app.post('/api/denovo', function (req, res) {
 				return cleanupCallback();
 			}
 
-			const child = execFile('python', ['code/de.py', path], (err, stdout, stderr) => {
+			const child = execFile('python', ['code/de.py', path], {maxBuffer: 1024 * 5000}, (err, stdout, stderr) => {
 				if (err) {
 					console.log(err);
 					res.status(500);
