@@ -450,7 +450,7 @@ payload = {
             "sp_inp": rst[0][0].tolist(),  # np.zeros((4, 8192)).tolist(),
             "mz_inp": rst[1][0].tolist(),  # np.zeros((2, )).tolist(),
             "charge_inp": rst[2][0].tolist(),  # np.zeros((4, )).tolist(),
-            # "pks_inp": rst[3][0].tolist(), #np.zeros((2, 512)).tolist(),
+            "pks_inp": rst[3][0].tolist(), #np.zeros((2, 512)).tolist(),
         }
     ]
 }
