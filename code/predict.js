@@ -29,6 +29,20 @@ function doSearch() {
 		try {			
 			const rst = JSON.parse(data.replaceAll("'", "\""));
 
+			if (rst.err == 1) {
+				console.log(rst.msg);
+	
+				$('#info, #loading, #complete, #rst').slideUp(200);
+	
+				$('#loadErr').slideDown(400);
+	
+				$('body, html').animate({
+					scrollTop: $('#loadErr')[0].offsetTop - 200
+				}, 1000);
+
+				return;
+			}
+
 			$('#pep').html(rst.pep);
 			$('#score').html(rst.score);
 

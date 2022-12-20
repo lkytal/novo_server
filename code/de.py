@@ -414,13 +414,23 @@ r = requests.post("http://localhost:6501/v1/models/novo_model:predict",
                   headers = {"content-type": "application/json"},
                   json=payload)
 
-pred = json.loads(r.content.decode("utf-8"))
+try:
+    pred = json.loads(r.content.decode("utf-8"))
+    pep, _, matrix = fix1(pred["predictions"][0], sp["mass"], sp["charge"])
+    pscore = matrix[:len(pep)]
 
-pep, _, matrix = fix1(pred["predictions"][0], sp["mass"], sp["charge"])
-pscore = matrix[:len(pep)]
-
-print({
-    "pep": pep,
-    "score": np.prod(pscore),
-    "pscore": pscore.tolist()
-})
+    print({
+        "pep": pep,
+        "score": np.prod(pscore),
+        "pscore": pscore.tolist(),
+        "err": 0,
+        "msg": ""
+    })
+except:
+    print({
+        "pep": "",
+        "score": 0,
+        "pscore": 0,
+        "err": 1,
+        "msg": "r.content.decode('utf-8')"
+    })
